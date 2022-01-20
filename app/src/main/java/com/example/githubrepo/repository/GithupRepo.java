@@ -21,9 +21,9 @@ public class GithupRepo {
         apiInterface = ApiClient.getInstance().create(ApiInterface.class);
     }
 
-    public LiveData<GitRepo> getTopRepo(String q, String sort, String order) {
+    public LiveData<GitRepo> getTopRepo(String q, String sort, String order, int perPage) {
         MutableLiveData<GitRepo> data = new MutableLiveData<>();
-        Observable observable = apiInterface.getRepo(q,sort,order)
+        Observable observable = apiInterface.getRepo(q,sort,order,perPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         Observer<GitRepo> observer = new Observer<GitRepo>() {

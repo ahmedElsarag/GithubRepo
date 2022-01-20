@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.githubrepo.adapter.TopRepoAdapter;
 import com.example.githubrepo.databinding.ActivityMainBinding;
@@ -33,7 +35,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     ActivityMainBinding binding;
     TopRepoViewModel topRepoViewModel;
@@ -42,10 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "gitrep";
     String baseUrl = "https://api.github.com/search/";
     String q = "created:>";
-    final String defaultDate = "created:>2019-01-10";
     String sort = "stars";
     String order = "desc";
-    String pickedDate;
+    String pickedDate = "created:>2019-01-10";
+    int perPage = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -54,9 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         binding.datePicker.setOnClickListener(this);
         binding.progressBar.setVisibility(View.VISIBLE);
+        binding.radioGroup.setOnCheckedChangeListener(this);
 
         initRecycler();
-        getData(defaultDate);
+        getData(pickedDate,perPage);
     }
 
 
@@ -78,14 +81,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String date = formatter.format(calendar.getTime());
                 pickedDate= q+date;
                 binding.pickedDate.setText(date);
-                getData(pickedDate);
+                getData(pickedDate,perPage);
             }
         };
         return  setListener;
     }
-    private void getData(String date){
+    private void getData(String date,int perPage){
         topRepoViewModel = new ViewModelProvider(this).get(TopRepoViewModel.class);
-        topRepoViewModel.getTopRepo(date, sort, order).observe(this, topRepo -> {
+        topRepoViewModel.getTopRepo(date, sort, order,perPage).observe(this, topRepo -> {
             // binding.txt.setText(topRepo.getItems().get(0).getName());
             list = topRepo.getItems();
             if (list.size() != 0) {
@@ -109,5 +112,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.purple_200)));
             datePickerDialog.show();
         }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (i){
+            case R.id.radioBtn10:{
+                binding.progressBar.setVisibility(View.VISIBLE);
+                perPage = 10;
+                getData(pickedDate,perPage);
+                Toast.makeText(MainActivity.this,"checked",Toast.LENGTH_LONG).show();
+                break;
+            }
+            case R.id.radioBtn50:{
+                binding.progressBar.setVisibility(View.VISIBLE);
+                perPage = 50;
+                getData(pickedDate,perPage);
+                break;
+            }
+            case R.id.radioBtn100:{
+                binding.progressBar.setVisibility(View.VISIBLE);
+                perPage = 100;
+                getData(pickedDate,perPage);
+                break;
+            }
+        }
+
     }
 }

@@ -13,8 +13,8 @@ public class TopRepoViewModel extends ViewModel {
     public TopRepoViewModel() {
         githupRepo = new GithupRepo();
     }
-    public LiveData<GitRepo> getTopRepo(String q, String sort, String order){
+    public LiveData<GitRepo> getTopRepo(String q, String sort, String order,int perPage){
 
-        return githupRepo.getTopRepo(q,sort,order);
+        return githupRepo.getTopRepo(q,sort,order,perPage);
     }
 }

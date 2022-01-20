@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,32 +12,63 @@
             android:id="@+id/date_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Pick Date"
             android:layout_margin="16dp"
             android:background="@drawable/date_shape"
-            android:padding="4dp"
             android:drawableLeft="@drawable/ic_baseline_date_range_24"
-            android:textSize="16sp"/>
+            android:padding="4dp"
+            android:text=" Pick Date"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/picked_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="18dp"
             android:layout_toEndOf="@id/date_picker"
-            android:text="2019-01-10"
-            android:layout_margin="18dp"/>
+            android:text="2019-01-10" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_picker"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <RadioButton
+                android:id="@+id/radioBtn10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="10" />
+
+            <RadioButton
+                android:id="@+id/radioBtn50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="50" />
+
+            <RadioButton
+                android:id="@+id/radioBtn100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="100" />
+        </RadioGroup>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_picker" />
+            android:layout_below="@+id/radioGroup" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 </layout>

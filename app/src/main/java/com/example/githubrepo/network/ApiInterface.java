@@ -13,6 +13,7 @@ public interface ApiInterface {
     Observable<GitRepo> getRepo(
             @Query("q")  String q,
             @Query("sort") String sort,
-            @Query("order") String order
+            @Query("order") String order,
+            @Query("per_page") int perPage
     );
 }
