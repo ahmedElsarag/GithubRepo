@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/drawable/all_radius_shape.xml" value="0.2712820512820513" />
+        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/drawable/bottom_radius_shape.xml" value="0.25277777777777777" />
         <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/drawable/date_shape.xml" value="0.2657407407407407" />
-        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/layout/activity_main.xml" value="0.259375" />
+        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.25277777777777777" />
+        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/drawable/top_radius_shape.xml" value="0.2712820512820513" />
+        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/layout/fragment_bottom_sheet.xml" value="0.176" />
         <entry key="..\:/AndroidProjects/GithubRepo/app/src/main/res/layout/top_repo_item.xml" value="0.259375" />
       </map>
     </option>

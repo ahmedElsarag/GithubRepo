@@ -42,7 +42,9 @@
                     android:layout_alignParentEnd="true"
                     android:text="stars"
                     android:textColor="@color/black"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:drawableStart="@drawable/ic_baseline_star_rate_24"
+                    />
 
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Bottom sheet contents. -->
+    <RelativeLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:background="@drawable/top_radius_shape"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:context=".ui.BottomSheetFragment">
+
+        <View
+            android:id="@+id/header_shape"
+            android:layout_width="60dp"
+            android:layout_height="4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/all_radius_shape"/>
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/header_shape"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Data Settings"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/header_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/repo_number_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_divider"
+            android:layout_marginStart="8dp"
+            android:text="Select number shown repository"
+            android:textSize="18sp" />
+
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/repo_number_txt"
+            android:layout_marginStart="16dp"
+            android:weightSum="1">
+
+            <RadioButton
+                android:id="@+id/radioBtn10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show top 10" />
+
+            <RadioButton
+                android:id="@+id/radioBtn50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Show top 50" />
+
+            <RadioButton
+                android:id="@+id/radioBtn100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Show top 100" />
+
+        </RadioGroup>
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/mid_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/radioGroup"
+            android:layout_marginBottom="8dp"
+            app:dividerInsetEnd="16dp"
+            app:dividerInsetStart="16dp" />
+
+        <TextView
+            android:id="@+id/select_date_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mid_divider"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="Select Date of repositories"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/select_date_txt">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/purple_500"
+                android:padding="8dp"
+                android:src="@drawable/ic_baseline_date_range_24"
+                app:tint="@color/white" />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="20-1-2021"
+                android:background="@drawable/date_shape"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                />
+        </LinearLayout>
+
+
+
+
+
+
+    </RelativeLayout>
+</layout>
+
+
+
+

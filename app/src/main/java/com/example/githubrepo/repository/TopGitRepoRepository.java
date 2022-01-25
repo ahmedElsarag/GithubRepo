@@ -1,8 +1,11 @@
 package com.example.githubrepo.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.githubrepo.Constants;
 import com.example.githubrepo.model.GitRepo;
 import com.example.githubrepo.network.ApiClient;
 import com.example.githubrepo.network.ApiInterface;
@@ -13,11 +16,12 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class GithupRepo {
+public class TopGitRepoRepository {
 
     ApiInterface apiInterface;
+    private static final String TAG = "toprepository";
 
-    public GithupRepo() {
+    public TopGitRepoRepository() {
         apiInterface = ApiClient.getInstance().create(ApiInterface.class);
     }
 
@@ -38,7 +42,8 @@ public class GithupRepo {
 
             @Override
             public void onError(Throwable e) {
-
+                Log.d(TAG, "onError: "+e.getMessage());
+                data.postValue(new GitRepo(e));
             }
 
             @Override
