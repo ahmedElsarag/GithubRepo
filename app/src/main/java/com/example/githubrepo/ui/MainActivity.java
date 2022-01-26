@@ -41,17 +41,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         init();
         initRecycler();
+        //number of items that checked in radio groub0 10,50,100 and data selected from date picker
         numberOfItems = cacheOperation.getIntFromPreference(Constants.ITEMS_KEY, Constants.DEFAULT_ITEMS_NUMBER);
         pickedDate = cacheOperation.getStringFromPreference(Constants.DATE_KEY, Constants.DEFAULT_DATE);
+
         getData(pickedDate, numberOfItems);
     }
 
     private void getData(String date, int perPage) {
-
+        //getting data returned from the api and viewModel
         topRepoViewModel = new ViewModelProvider(this).get(TopGitRepoViewModel.class);
         topRepoViewModel.getTopRepo(date, Constants.SORT_BY, Constants.ORDER_IN, perPage)
                 .observe(this, topRepo -> {
-
+                    // if error happend and no data returned from the api
                     if (topRepo.getError() == null) {
                         list = topRepo.getItems();
                         binding.progressBar.setVisibility(View.GONE);
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         adapter.notifyDataSetChanged();
                     }else {
                         Throwable e = topRepo.getError();
+                        /*if no data returned and error hapend. this method check
+                        if no internet or another error and display message and animation */
                          errorChecking(e);
                     }
                 });
@@ -68,10 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            //floating action btn that showing bottom sheet
             case R.id.floating_btn:
                 BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
                 bottomSheetFragment.show(this.getSupportFragmentManager(), bottomSheetFragment.getTag());
                 break;
+                //retry btn that appear when ther is no internet connection and try to get data after clicked
             case R.id.btn_retry:
                 if (networkCheck.isNetworkAvailable()){
                     getData(pickedDate,numberOfItems);
@@ -86,10 +92,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        /*if the user checked another item on radio group or select new data
+        it update shared prefs and we listen for the change to update date as the user select*/
         if (key == Constants.ITEMS_KEY) {
+            //if the change done at radioGroup prefs
             numberOfItems = cacheOperation.getIntFromPreference(key, Constants.DEFAULT_ITEMS_NUMBER);
             getData(pickedDate, numberOfItems);
         } else if (key == Constants.DATE_KEY) {
+            //if the change done at date picker prefs
             pickedDate = cacheOperation.getStringFromPreference(key, Constants.DEFAULT_DATE);
             getData(pickedDate, numberOfItems);
 
@@ -114,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void errorChecking(Throwable e){
+        //check if the problem was in internet or not
         if (networkCheck.isNetworkAvailable()){
             binding.progressBar.setVisibility(View.GONE);
             binding.animationView.setVisibility(View.VISIBLE);

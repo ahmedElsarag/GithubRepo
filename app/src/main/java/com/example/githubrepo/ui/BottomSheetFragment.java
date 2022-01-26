@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Ra
 
 
         init();
+        //when the fragmen first created we display the last option user select
         getCurrentListValue();
         getCurrentDate();
 
@@ -52,8 +54,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Ra
     }
 
     private void getCurrentListValue() {
-        int value = cacheOperation.getIntFromPreference(Constants.ITEMS_KEY,Constants.DEFAULT_ITEMS_NUMBER);
-        switch (value){
+
+        //check the last seleced radioBtn
+        int value = cacheOperation.getIntFromPreference(Constants.ITEMS_KEY, Constants.DEFAULT_ITEMS_NUMBER);
+        switch (value) {
             case 10:
                 binding.radioBtn10.setChecked(true);
                 break;
@@ -65,8 +69,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Ra
                 break;
         }
     }
-    private void getCurrentDate(){
-        String date = cacheOperation.getStringFromPreference(Constants.DATE_KEY,Constants.DEFAULT_DATE);
+
+    private void getCurrentDate() {
+        //get the last selected date
+        String date = cacheOperation.getStringFromPreference(Constants.DATE_KEY, Constants.DEFAULT_DATE);
         binding.tvDate.setText(date.substring(9));
     }
 
@@ -81,6 +87,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Ra
             bottomSheet.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
         }
         View view = getView();
+        //set the bottom sheet full screen
         view.post(() -> {
             View parent = (View) view.getParent();
             CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) (parent).getLayoutParams();
@@ -93,31 +100,33 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Ra
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        if (networkCheck.isNetworkAvailable()){
+        // get the checked radio btn
+        if (networkCheck.isNetworkAvailable()) {
             switch (i) {
                 case R.id.radioBtn10:
-                    cacheOperation.PutIntToPreference(Constants.ITEMS_KEY,10);
+                    cacheOperation.PutIntToPreference(Constants.ITEMS_KEY, 10);
                     break;
                 case R.id.radioBtn50:
-                    cacheOperation.PutIntToPreference(Constants.ITEMS_KEY,50);
+                    cacheOperation.PutIntToPreference(Constants.ITEMS_KEY, 50);
                     break;
                 case R.id.radioBtn100:
-                    cacheOperation.PutIntToPreference(Constants.ITEMS_KEY,100);
+                    cacheOperation.PutIntToPreference(Constants.ITEMS_KEY, 100);
                     break;
             }
-        }else {
-            Toast.makeText(getContext(),"check your interner",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "check your interner", Toast.LENGTH_LONG).show();
         }
 
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.date_picker){
-           initDatePicker();
+        if (view.getId() == R.id.date_picker) {
+            initDatePicker();
         }
     }
-    private void initDatePicker(){
+
+    private void initDatePicker() {
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -130,47 +139,47 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Ra
     }
 
 
-    private DatePickerDialog.OnDateSetListener getDate(){
+    private DatePickerDialog.OnDateSetListener getDate() {
         DatePickerDialog.OnDateSetListener setListener;
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Calendar calendar = Calendar.getInstance();
-                calendar.set(year,month,day);
+                calendar.set(year, month, day);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String date = formatter.format(calendar.getTime());
-                if (!isAfterCurrentDate(date)){
-                    String pickedDate= Constants.URL_DATE_PORTION+date;
+                if (!isAfterCurrentDate(date)) {
+                    String pickedDate = Constants.URL_DATE_PORTION + date;
                     binding.tvDate.setText(date);
-                    cacheOperation.PutStringToPreference(Constants.DATE_KEY,pickedDate);
-                }else {
-                    Toast.makeText(getContext(),"Please Enter Valid Date",Toast.LENGTH_LONG).show();
+                    cacheOperation.PutStringToPreference(Constants.DATE_KEY, pickedDate);
+                } else {
+                    Toast.makeText(getContext(), "Please Enter Valid Date", Toast.LENGTH_LONG).show();
                 }
 
                 //getData(pickedDate,numberOfItems);
             }
         };
-        return  setListener;
+        return setListener;
     }
-    private boolean isAfterCurrentDate(String selectedDate){
+
+    private boolean isAfterCurrentDate(String selectedDate) {
         //check if the selected date is after today
-        Date enteredDate=null;
-        try
-        {
+        Date enteredDate = null;
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             enteredDate = sdf.parse(selectedDate);
-        }catch (Exception ex)
-        {
-            // enteredDate will be null if date="287686";
+        } catch (Exception ex) {
+            Log.d(TAG, "isAfterCurrentDate: " + ex.getMessage());
+            return true;
         }
         Date currentDate = new Date();
-        if(enteredDate.after(currentDate)){
+        if (enteredDate.after(currentDate)) {
             return true;
         }
         return false;
     }
 
-    private void init(){
+    private void init() {
         cacheOperation = new CacheOperation(getContext());
         networkCheck = new NetworkCheck(getContext());
         binding.radioGroup.setOnCheckedChangeListener(this);
